@@ -47,9 +47,8 @@ class Node {
         object.updatePath();
     }
 
-    Node getNode(in string absolutePath) {
-        // const absolutePath = isRoot ? relativePath : path ~ "." ~ relativePath;
-        return findNodeByPath(absolutePath, this);
+    Node getNode(in string relativePath) {
+        return findNodeByPath(relativePath, this);
     }
 
     mixin Accessors;
@@ -75,14 +74,15 @@ private:
         return this;
     }
 
-    Node findNodeByPath(in string absolutePath, Node node) {
+    Node findNodeByPath(in string relativePath, Node node) {
         assert(node !is null);
+        const absolutePath = isRoot ? relativePath : path ~ "." ~ relativePath;
 
         foreach (Node child; node.children) {
             if (child.path == absolutePath)
                 return child;
 
-            Node findNode = findNodeByPath(absolutePath, child);
+            Node findNode = findNodeByPath(relativePath, child);
 
             if (findNode !is null)
                 return findNode;
