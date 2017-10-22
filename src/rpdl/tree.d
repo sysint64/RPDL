@@ -128,8 +128,9 @@ private:
 
 
 unittest {
-    auto data = new RPDLTree("/home/andrey/projects/e2dit-dlang/tests");
-    data.load("simple.e2t");
+    // TODO: rm hardcode
+    auto data = new RPDLTree("/home/andrey/projects/rpui/tests");
+    data.load("simple.rdl");
 
     assert(data.getNumber("Test.Test2.p2.0") == 2);
     assert(data.getBoolean("Test.Test2.p2.1") == true);
