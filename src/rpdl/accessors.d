@@ -309,3 +309,14 @@ mixin template Accessors() {
         return getVecValueFromNode!(T, n, E)(path, node);
     }
 }
+
+import rpdl.exception;
+import rpdl.node;
+
+T ufcsGetEnum(T, E : RPDLException)(Node node, in string path) {
+    return node.getEnum!(T, E)(path);
+}
+
+T ufcsOptEnum(T, E : RPDLException)(Node node, in string path, in T defaultVal = T.init) {
+    return node.optEnum!(T, E)(path, defaultVal);
+}

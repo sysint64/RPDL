@@ -12,13 +12,17 @@ import rpdl.exception;
 import gl3n.linalg;
 
 class Node {
-    this(in string name) {
+    const bool isRoot;
+
+    this(in string name, in bool isRoot = false) {
         this.p_name = name;
         this.p_path = name;
+        this.isRoot = isRoot;
     }
 
     this(in string name, Node parent) {
         this.p_name = name;
+        this.isRoot = false;
         parent.insert(this);
     }
 
@@ -43,8 +47,9 @@ class Node {
         object.updatePath();
     }
 
-    Node getNode(in string relativePath) {
-        return findNodeByPath(relativePath, this);
+    Node getNode(in string absolutePath) {
+        // const absolutePath = isRoot ? relativePath : path ~ "." ~ relativePath;
+        return findNodeByPath(absolutePath, this);
     }
 
     mixin Accessors;
@@ -70,18 +75,17 @@ private:
         return this;
     }
 
-    Node findNodeByPath(in string relativePath, Node root) {
-        assert(root !is null);
-        const string absolutePath = path ~ "." ~ relativePath;
+    Node findNodeByPath(in string absolutePath, Node node) {
+        assert(node !is null);
 
-        foreach (Node child; root.children) {
+        foreach (Node child; node.children) {
             if (child.path == absolutePath)
                 return child;
 
-            Node node = findNodeByPath(relativePath, child);
+            Node findNode = findNodeByPath(absolutePath, child);
 
-            if (node !is null)
-                return node;
+            if (findNode !is null)
+                return findNode;
         }
 
         return null;

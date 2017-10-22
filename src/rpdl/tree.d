@@ -23,12 +23,12 @@ class RPDLTree {
     enum IOType {text, bin};
 
     this() {
-        p_root = new Node("");
+        p_root = new Node("", true);
     }
 
     this(in string rootDirectory) {
         this.p_rootDirectory = rootDirectory;
-        p_root = new Node("");
+        p_root = new Node("", true);
     }
 
     void load(in string fileName, in IOType rt = IOType.text) {
@@ -90,12 +90,9 @@ class RPDLTree {
         this.parser.parse();
     }
 
-    // Access to nodes
-    Node getNode(in string path) {
-        return findNodeByPath(path, p_root);
+    @property Node data() {
+        return p_root;
     }
-
-    mixin Accessors;
 
 private:
     Lexer  lexer;
@@ -104,54 +101,41 @@ private:
     string p_rootDirectory;
     Node p_root;
     bool p_staticLoad = false;
-
-    Node getRootNode() {
-        return p_root;
-    }
-
-    Node findNodeByPath(in string path, Node root) {
-        assert(root !is null);
-
-        foreach (Node child; root.children) {
-            if (child.path == path)
-                return child;
-
-            Node node = findNodeByPath(path, child);
-
-            if (node !is null)
-                return node;
-        }
-
-        return null;
-    }
 }
 
 
 unittest {
-    // TODO: rm hardcode
-    auto data = new RPDLTree("/home/andrey/projects/rpui/tests");
-    data.load("simple.rdl");
+    import std.path;
+    import std.file;
 
-    assert(data.getNumber("Test.Test2.p2.0") == 2);
-    assert(data.getBoolean("Test.Test2.p2.1") == true);
-    assert(data.getString("Test.Test2.p2.2") == "Hello");
-    assert(data.getString("TestInclude.Linux.0") == "Arch");
-    assert(data.getInteger("TestInclude.Test2.param.3.2") == 4);
+    const binDirectory = dirName(thisExePath());
+    const testsDirectory = buildPath(binDirectory, "tests");
 
-    // Non standart types
-    assert(data.getVec2f("Rombik.position") == Vector!(float, 2)(1, 3));
-    assert(data.getVec2i("Rombik.position") == Vector!(int, 2)(1, 3));
-    assert(data.getVec2ui("Rombik.position") == Vector!(uint, 2)(1, 3));
+    auto tree = new RPDLTree(testsDirectory);
+    tree.load("simple.rdl");
 
-    assert(data.getVec2f("Rombik.size.0") == Vector!(float, 2)(320, 128));
-    assert(data.getVec2f("Rombik.size2") == Vector!(float, 2)(64, 1024));
-    try { data.getVec2f("Rombik.size.1"); assert(false); } catch(NotVec2Exception) {}
+    with (tree.data) {
+        assert(getNumber("Test.Test2.p2.0") == 2);
+        assert(getBoolean("Test.Test2.p2.1") == true);
+        assert(getString("Test.Test2.p2.2") == "Hello");
+        assert(getString("TestInclude.Linux.0") == "Arch");
+        assert(getInteger("TestInclude.Test2.param.3.2") == 4);
 
-    assert(data.getVec4f("Rombik.texCoord.0") == Vector!(float, 4)(10, 15, 32, 64));
-    assert(data.getVec4f("Rombik.texCoord2") == Vector!(float, 4)(5, 3, 16, 24));
+        // Non standart types
+        assert(getVec2f("Rombik.position") == Vector!(float, 2)(1, 3));
+        assert(getVec2i("Rombik.position") == Vector!(int, 2)(1, 3));
+        assert(getVec2ui("Rombik.position") == Vector!(uint, 2)(1, 3));
 
-    assert(data.optVec4f("Rombik.texCoord2", Vector!(float, 4)(0, 1, 2, 3)) == Vector!(float, 4)(5, 3, 16, 24));
-    assert(data.optVec4f("Rombik.texCoord3", Vector!(float, 4)(0, 1, 2, 3)) == Vector!(float, 4)(0, 1, 2, 3));
+        assert(getVec2f("Rombik.size.0") == Vector!(float, 2)(320, 128));
+        assert(getVec2f("Rombik.size2") == Vector!(float, 2)(64, 1024));
+        try { getVec2f("Rombik.size.1"); assert(false); } catch(NotVec2Exception) {}
+
+        assert(getVec4f("Rombik.texCoord.0") == Vector!(float, 4)(10, 15, 32, 64));
+        assert(getVec4f("Rombik.texCoord2") == Vector!(float, 4)(5, 3, 16, 24));
+
+        assert(optVec4f("Rombik.texCoord2", Vector!(float, 4)(0, 1, 2, 3)) == Vector!(float, 4)(5, 3, 16, 24));
+        assert(optVec4f("Rombik.texCoord3", Vector!(float, 4)(0, 1, 2, 3)) == Vector!(float, 4)(0, 1, 2, 3));
+    }
 
     // TODO: Tests for relative pathes
 }
