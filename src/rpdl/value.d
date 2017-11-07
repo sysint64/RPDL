@@ -1,10 +1,14 @@
+/**
+ * Values nodes
+ */
 module rpdl.value;
 
 import rpdl.node;
 import std.conv;
 
-
+/// Base class of value
 class Value: Node {
+    /// Type of value
     enum Type {Number, String, Identifier, Boolean, Array};
 
     this(in string name) { super(name); }
@@ -16,7 +20,7 @@ protected:
     Type p_type;
 }
 
-
+///
 class NumberValue: Value {
     @property float value() { return p_value; }
 
@@ -34,7 +38,7 @@ protected:
     float p_value;
 }
 
-
+///
 class BooleanValue : Value {
     @property bool value() { return p_value; }
 
@@ -52,7 +56,7 @@ private:
     bool p_value;
 }
 
-
+///
 class StringValue : Value {
     @property string value() { return p_value; }
     @property dstring utfValue() { return p_utfValue; }
@@ -79,7 +83,7 @@ private:
     dstring p_utfValue;
 }
 
-
+///
 class IdentifierValue : StringValue {
     this(in string name, in string value) {
         super(name, value);
@@ -96,7 +100,7 @@ class IdentifierValue : StringValue {
     }
 }
 
-
+///
 class ArrayValue: Value {
     this(in string name) {
         super(name);

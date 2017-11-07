@@ -9,5 +9,16 @@
     "license": "MIT",
     "dependencies": {
         "gl3n": "~>1.3.1",
+    },
+
+    "buildTypes": {
+        "cddox": { 
+            "buildOptions": ["syntaxOnly"],
+            "dflags": ["-c", "-X", "-Xfdocs.json"],
+            "postBuildCommands": [
+                "ddox filter --min-protection=Protected docs.json",
+                "ddox generate-html --navigation-type=ModuleTree docs.json docs",
+            ]
+        }
     }
 }
