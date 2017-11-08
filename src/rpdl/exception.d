@@ -112,48 +112,6 @@ class NotVec3OrVec4Exception : RPDLException {
     this(in string details) { super(details); }
 }
 
-///
-class NotTextureCoordException : RPDLException {
-    this() { super("it is not a texture coordinate value"); }
-    this(in string details) { super(details); }
-}
-
-///
-class NotAlignException : RPDLException {
-    this() { super("it is not a align value"); }
-    this(in string details) { super(details); }
-}
-
-///
-class NotOrientationException : RPDLException {
-    this() { super("it is not a orientation value"); }
-    this(in string details) { super(details); }
-}
-
-///
-class NotRegionAlignException : RPDLException {
-    this() { super("it is not a region align value"); }
-    this(in string details) { super(details); }
-}
-
-///
-class NotVerticalAlignException : RPDLException {
-    this() { super("it is not a vertical align value"); }
-    this(in string details) { super(details); }
-}
-
-///
-class NotPanelBackgroundException : RPDLException {
-    this() { super("it is not a Panel.Background value"); }
-    this(in string details) { super(details); }
-}
-
-///
-class NotCursorIconException : RPDLException {
-    this() { super("it is not a Cursor.Icon value"); }
-    this(in string details) { super(details); }
-}
-
 class WrongNodeType : RPDLException {
     this() { super("wrong type of value"); }
     this(in string details) { super(details); }
