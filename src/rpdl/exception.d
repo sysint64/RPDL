@@ -43,66 +43,66 @@ class NotValueException : RPDLException {
     static @property string typeName() { return "Value"; }
 }
 
-///
+/// Found node is not a `rpdl.value.Value` nor `rpdl.node.Parameter`
 class NotParameterOrValueException : RPDLException {
     this() { super("it is not a parameter or value"); }
     this(in string details) { super(details); }
 }
 
-///
+/// Found node is not a `rpdl.value.NumberValue`
 class NotNumberValueException : RPDLException {
     this() { super("it is not a number value"); }
     this(in string details) { super(details); }
     static @property string typeName() { return "NumberValue"; }
 }
 
-///
+/// Found node is not a `rpdl.value.BooleanValue`
 class NotBooleanValueException : RPDLException {
     this() { super("it is not a number value"); }
     this(in string details) { super(details); }
     static @property string typeName() { return "BooleanValue"; }
 }
 
-///
+/// Found node is not a `rpdl.value.StringValue`
 class NotStringValueException : RPDLException {
     this() { super("it is not a string value"); }
     this(in string details) { super(details); }
     static @property string typeName() { return "StringValue"; }
 }
 
-///
+/// Found node is not a `rpdl.value.IdentifierValue`
 class NotIdentifierValueException : RPDLException {
     this() { super("it is not a identifier value"); }
     this(in string details) { super(details); }
     static @property string typeName() { return "IdentifierValue"; }
 }
 
-///
+/// Found node is not a `rpdl.value.ArrayValue`
 class NotArrayValueException : RPDLException {
     this() { super("it is not an array value"); }
     this(in string details) { super(details); }
     static @property string typeName() { return "ArrayValue"; }
 }
 
-///
+/// Found value is not a `vec2`
 class NotVec2Exception : RPDLException {
     this() { super("it is not a vec2 value"); }
     this(in string details) { super(details); }
 }
 
-///
+/// Found value is not a `vec3`
 class NotVec3Exception : RPDLException {
     this() { super("it is not a vec3 value"); }
     this(in string details) { super(details); }
 }
 
-///
+/// Found value is not a `vec4`
 class NotVec4Exception : RPDLException {
     this() { super("it is not a vec4 value"); }
     this(in string details) { super(details); }
 }
 
-///
+/// Found value is not a `vec3` nor `vec4`
 class NotVec3OrVec4Exception : RPDLException {
     this() { super("it is not a vec3 or vec4 value"); }
     this(in string details) { super(details); }
@@ -150,7 +150,6 @@ class NotCursorIconException : RPDLException {
     this(in string details) { super(details); }
 }
 
-///
 class WrongNodeType : RPDLException {
     this() { super("wrong type of value"); }
     this(in string details) { super(details); }

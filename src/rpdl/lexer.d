@@ -8,7 +8,6 @@ import std.ascii;
 import rpdl.token;
 import rpdl.stream;
 
-
 class LexerError : Exception {
     this(in uint line, in uint pos, in string details) {
         auto writer = appender!string();
@@ -17,13 +16,14 @@ class LexerError : Exception {
     }
 }
 
-
+/// Lexical analyzer - convert steam of symbols to stream of tokens
 class Lexer {
     this(SymbolStream stream) {
         this.stream = stream;
         stream.read();
     }
 
+    /// Get next token in the stream
     Token nextToken() {
         if (stackCursor < tokenStack.length) {
             p_currentToken = tokenStack[stackCursor++];
@@ -36,6 +36,7 @@ class Lexer {
         return p_currentToken;
     }
 
+    /// Get previous token in the stream
     Token prevToken() {
         --stackCursor;
         p_currentToken = tokenStack[stackCursor-1];
@@ -46,12 +47,13 @@ class Lexer {
 
 private:
     SymbolStream stream;
-    bool negative = false;
+    bool negative = false;  /// If true, then number will be negative
     Token p_currentToken;
 
-    Token[] tokenStack;
+    Token[] tokenStack;  /// Save tokens in stack
     size_t stackCursor = 0;
 
+    /// Determines which token to create
     Token lexToken() {
         switch (stream.lastChar) {
             case ' ', '\n', '\r':
@@ -89,6 +91,7 @@ private:
         }
     }
 
+    /// Skip symbol in whole line
     void skipComment() {
         while (!stream.eof && stream.lastChar != '\n' && stream.lastChar != '\r')
             stream.read();

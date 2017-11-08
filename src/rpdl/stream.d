@@ -4,9 +4,9 @@ import std.stdio;
 import std.file;
 import core.stdc.stdio;
 
-
+/// Represents stream of symbols - stream produces one symbol by request
 class SymbolStream {
-public:
+    /// Get next symbol in stream
     char read() {
         readChar();
 
@@ -38,17 +38,29 @@ public:
         file.close();
     }
 
+    /// Current line in file
     @property int line() { return p_line; }
+
+    /// Current position in line in file
     @property int pos() { return p_pos; }
+
+    /// Current indent - count of tabs relative to the start of the line
     @property int indent() { return p_indent; }
+
+    /// Size of one tab - count of spaces for one indent
     @property int tabSize() { return p_tabSize; }
+
+    /// If true then stream ended
     @property bool eof() { return file.eof; }
+
+    /// The last given symbol
     @property char lastChar() { return p_lastChar; }
 
 protected:
     this() {
     }
 
+    /// Read one symbol from file and store it to `lastChar`
     char readChar() {
         auto buf = file.rawRead(new char[1]);
         ++p_pos;
@@ -70,6 +82,10 @@ private:
     bool needCalcTabSize = true;
     bool needCalcIndent  = true;
 
+    /**
+     * Calculate indentation in current line -
+     * count of tabs relative to the start of the line
+     */
     char calcIndent() {
         uint spaces = 0;
 
@@ -86,6 +102,7 @@ private:
         return p_lastChar;
     }
 
+    /// Calculate size of one tab - count of spaces for one indent
     char calcTabSize() {
         while (p_lastChar == ' ') {
             ++p_tabSize;

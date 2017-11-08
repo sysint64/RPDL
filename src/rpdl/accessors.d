@@ -1,25 +1,163 @@
 module rpdl.accessors;
 
+/// Mixin for retrieving values from tree by path
 mixin template Accessors() {
+
+// Nodes ------------------------------------------------------------------------------------------
+
+    /**
+     * Find `rpdl.node.ObjectNode` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotObjectException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getObject = getTypedNode!(ObjectNode, NotObjectException);
+
+    /**
+     * Find `rpdl.node.Parameter` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotParameterException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getParameter = getTypedNode!(Parameter, NotParameterException);
+
+    /**
+     * Find `rpdl.value.Value` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getValue = getTypedNode!(Value, NotValueException);
+
+    /**
+     * Find `rpdl.value.NumberValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotNumberValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getNumberValue = getTypedNode!(NumberValue, NotNumberValueException);
+
+    /**
+     * Find `rpdl.value.StringValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotStringValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getStringValue = getTypedNode!(StringValue, NotStringValueException);
+
+    /**
+     * Find `rpdl.value.IdentifierValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotIdentifierValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getIdentifierValue = getTypedNode!(IdentifierValue, NotIdentifierValueException);
+
+    /**
+     * Find `rpdl.value.BooleanValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotBooleanValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getBooleanValue = getTypedNode!(BooleanValue, NotBooleanValueException);
+
+    /**
+     * Find `rpdl.value.ArrayValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotArrayValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getArrayValue = getTypedNode!(ArrayValue, NotArrayValueException);
 
+// Vectors ----------------------------------------------------------------------------------------
+
+    /**
+     * Retrieve `vec2f` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec2Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getVec2f = getVecValue!(float, 2, NotVec2Exception);
+
+    /**
+     * Retrieve `vec3f` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec3Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getVec3f = getVecValue!(float, 3, NotVec3Exception);
+
+    /**
+     * Retrieve `vec4f` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec4Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getVec4f = getVecValue!(float, 4, NotVec4Exception);
 
+    /**
+     * Retrieve `vec2i` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec2Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getVec2i = getVecValue!(int, 2, NotVec2Exception);
+
+    /**
+     * Retrieve `vec3i` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec3Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getVec3i = getVecValue!(int, 3, NotVec3Exception);
+
+    /**
+     * Retrieve `vec3i` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec3Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getVec4i = getVecValue!(int, 4, NotVec4Exception);
 
+    /**
+     * Retrieve `vec2ui` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec2Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getVec2ui = getVecValue!(uint, 2, NotVec2Exception);
+
+    /**
+     * Retrieve `vec3ui` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec3Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getVec3ui = getVecValue!(uint, 3, NotVec3Exception);
+
+    /**
+     * Retrieve `vec4ui` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec4Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getVec4ui = getVecValue!(uint, 4, NotVec4Exception);
 
     // Texture.Coord getTexCoord(in string path) {
@@ -30,6 +168,18 @@ mixin template Accessors() {
     //     return texCoord;
     // }
 
+    /**
+     * Retrieve normilized color to 1 i.e. r/255, g/255, b/255, a/100
+     *
+     * Returns:
+     *     vec4f value contain inside the node
+     *     if `rpdl.node.Node` has 3 components, then `alpha` will set to 1
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec4Exception`,
+     *     `rpdl.exception.NotVec3Exception`,
+     *     `rpdl.exception.NotFoundException`
+     */
     vec4 getNormColor(in string path) {
         vec4 color;
 
@@ -37,7 +187,7 @@ mixin template Accessors() {
             color = getVec4f(path);
         } catch(NotVec4Exception) {
             vec3 color3 = getVec3f(path);
-            color = vec4(color3, 100.0);
+            color = vec4(color3, 1.0f);
         } catch(NotVec3Exception) {
             throw new NotVec3OrVec4Exception();
         }
@@ -46,8 +196,9 @@ mixin template Accessors() {
         return color;
     }
 
-    // Optional access to nodes
+// Optional access --------------------------------------------------------------------------------
 
+    /// Find `rpdl.node.Node` by `path` if node was not found then it will return `defaultVal`
     Node optNode(in string path, Node defaultVal = null) {
         Node node = findNodeByPath(path, getRootNode());
 
@@ -57,37 +208,183 @@ mixin template Accessors() {
         return node;
     }
 
+    /**
+     * Find `rpdl.node.ObjectNode` by `path`
+     * if node was not found then it will return `defaultVal`
+     * 
+     * Throw:
+     *     `rpdl.exception.NotObjectException`
+     */
     alias optObject = optTypedNode!(ObjectNode, NotObjectException);
+
+    /**
+     * Find `rpdl.node.Parameter` by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotParameterException`
+     */
     alias optParameter = optTypedNode!(Parameter, NotParameterException);
+
+    /**
+     * Find `rpdl.value.Value` by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotValueException`
+     */
     alias optValue = optTypedNode!(Value, NotValueException);
+
+    /**
+     * Find `rpdl.value.NumberValue` by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotNumberValueException`
+     */
     alias optNumberValue = optTypedNode!(NumberValue, NotNumberValueException);
+
+    /**
+     * Find `rpdl.value.StringValue` by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotStringValueException`
+     */
     alias optStringValue = optTypedNode!(StringValue, NotStringValueException);
+
+    /**
+     * Find `rpdl.value.IdentifierValue` by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotIdentifierValueException`
+     */
     alias optIdentifierValue = optTypedNode!(IdentifierValue, NotIdentifierValueException);
+
+    /**
+     * Find `rpdl.value.BooleanValue` by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotBooleanValueException`
+     */
     alias optBooleanValue = optTypedNode!(BooleanValue, NotBooleanValueException);
+
+    /**
+     * Find `rpdl.value.ArrayValue` by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotArrayValueException`
+     */
     alias optArrayValue = optTypedNode!(ArrayValue, NotArrayValueException);
 
     // Access to values
 
+    /**
+     * Retrieve `float` value in `NumberValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotNumberValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getNumber = getTypedValue!(float, NumberValue, NotNumberValueException);
+
+    /**
+     * Retrieve `bool` value in `BooleanValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotBooleanValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getBoolean = getTypedValue!(bool, BooleanValue, NotBooleanValueException);
+
+    /**
+     * Retrieve `string` value in `StringValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotStringValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getString = getTypedValue!(string, StringValue, NotStringValueException);
+
+    /**
+     * Retrieve `string` value in `IdentifierValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotIdentifierValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     alias getIdentifier = getTypedValue!(string, IdentifierValue, NotIdentifierValueException);
 
+    /**
+     * Retrieve `dstring` value in `StringValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotStringValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     dstring getUTFString(in string path) {
         return getTypedNode!(StringValue, NotStringValueException)(path).utfValue;
     }
 
+    /**
+     * Retrieve `int` value in `NumberValue` by `path`
+     *
+     * Throw:
+     *     `rpdl.exception.NotNumberValueException`,
+     *     `rpdl.exception.NotFoundException`
+     */
     int getInteger(in string path) {
         return to!int(getNumber(path));
     }
 
     // Optional access to values
 
+    /**
+     * Retrieve optional `float` in node with type `rpdl.value.NumberValue` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotNumberValueException`
+     */
     alias optNumber = optTypedValue!(float, NumberValue, NotNumberValueException);
+
+    /**
+     * Retrieve optional `bool` in node with type `rpdl.value.BooleanValue` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotBooleanValueException`
+     */
     alias optBoolean = optTypedValue!(bool, BooleanValue, NotBooleanValueException);
+
+    /**
+     * Retrieve optional `string` in node with type `rpdl.value.StringValue` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotStringValueException`
+     */
     alias optString = optTypedValue!(string, StringValue, NotStringValueException);
+
+    /**
+     * Retrieve optional `string` in node with type `rpdl.value.IdentifierValue` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotIdentifierValueException`
+     */
     alias optIdentifier = optTypedValue!(string, IdentifierValue, NotIdentifierValueException);
 
+    /**
+     * Retrieve optional `dstring` in node with type `rpdl.value.StringValue` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotStringValueException`
+     */
     dstring optUTFString(in string path, dstring defaultVal = dstring.init) {
         StringValue node = optTypedNode!(StringValue, NotStringValueException)(path, null);
 
@@ -97,20 +394,96 @@ mixin template Accessors() {
         return node.utfValue;
     }
 
+    /**
+     * Retrieve optional `int` in node with type `rpdl.value.NumberValue` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotNumberValueException`
+     */
     int optInteger(in string path, int defaultVal = 0) {
         return to!int(optNumber(path, to!float(defaultVal)));
     }
 
+    /**
+     * Retrieve optional `vec2f` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec2Exception`
+     */
     alias optVec2f = optVecValue!(float, 2, NotVec2Exception);
+
+    /**
+     * Retrieve optional `vec3f` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec3Exception`
+     */
     alias optVec3f = optVecValue!(float, 3, NotVec3Exception);
+
+    /**
+     * Retrieve optional `vec4f` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec4Exception`
+     */
     alias optVec4f = optVecValue!(float, 4, NotVec4Exception);
 
+    /**
+     * Retrieve optional `vec2i` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec2Exception`
+     */
     alias optVec2i = optVecValue!(int, 2, NotVec2Exception);
+
+    /**
+     * Retrieve optional `vec3i` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec3Exception`
+     */
     alias optVec3i = optVecValue!(int, 3, NotVec3Exception);
+
+    /**
+     * Retrieve optional `vec4i` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec4Exception`
+     */
     alias optVec4i = optVecValue!(int, 4, NotVec4Exception);
 
+    /**
+     * Retrieve optional `vec4ui` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec2Exception`
+     */
     alias optVec2ui = optVecValue!(uint, 2, NotVec2Exception);
+
+    /**
+     * Retrieve optional `vec3ui` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec3Exception`
+     */
     alias optVec3ui = optVecValue!(uint, 3, NotVec3Exception);
+
+    /**
+     * Retrieve optional `vec4ui` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `rpdl.exception.NotVec4Exception`
+     */
     alias optVec4ui = optVecValue!(uint, 4, NotVec4Exception);
 
 // TODO: encapsulate these non standart accessors to other module ----------------------------------
@@ -130,6 +503,13 @@ mixin template Accessors() {
     //     }
     // }
 
+    /**
+     * Retrieve enum with type `T` value by `path`
+     *
+     * Throw:
+     *     `E`,
+     *     `rpdl.exception.NotFoundException`
+     */
     T getEnum(T, E : RPDLException)(in string path) {
         const string val = getIdentifier(path);
 
@@ -142,6 +522,13 @@ mixin template Accessors() {
         throw new E();
     }
 
+    /**
+     * Retrieve optional enum with type `T` value by `path`
+     * if node was not found then it will return `defaultVal`
+     *
+     * Throw:
+     *     `E`
+     */
     T optEnum(T, E : RPDLException)(in string path, in T defaultVal = T.init) {
         try {
             return getEnum!(T, E)(path);
@@ -279,7 +666,9 @@ mixin template Accessors() {
         return getVecValueFromNode!(T, n, E)(path, node);
     }
 
-    private Vector!(T, n) getVecValueFromNode(T, int n, E : RPDLException)(in string path, Node node) {
+    private Vector!(T, n) getVecValueFromNode(T, int n, E : RPDLException)(in string path,
+        Node node)
+    {
         if (node.length != n)
             throw new E();
 

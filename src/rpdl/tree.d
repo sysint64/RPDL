@@ -13,46 +13,64 @@ import rpdl.stream;
 import rpdl.node;
 import rpdl.value;
 import rpdl.exception;
+import rpdl.file_formats.bin;
+import rpdl.file_formats.text;
 import rpdl.writer;
-import rpdl.reader;
 import rpdl.accessors;
 
 import gl3n.linalg;
 
+/// Tree with loaded data
 class RPDLTree {
-    enum IOType {text, bin};
+    /// Read/Write type
+    enum IOType {
+        /**
+         * Parsing tree for loading
+         * and using `rpdl.file_formats.text.TextWriter` for saving
+         */
+        text, 
 
-    this() {
-        p_root = new Node("", true);
-    }
+        /**
+         * Using `rpdl.file_formats.bin.BinReader` loading
+         * and using `rpdl.file_formats.bin.BinWriter` for saving
+         */
+        bin
+    };
 
+    /**
+     * Create tree with base directory relative to this dierectory
+     * will be loaded files via `load` and `staticLoad`
+     */
     this(in string rootDirectory) {
         this.p_rootDirectory = rootDirectory;
         p_root = new Node("", true);
     }
 
+    /// Load file in runtime
     void load(in string fileName, in IOType rt = IOType.text) {
         const string fullPath = rootDirectory ~ dirSeparator ~ fileName;
 
         switch (rt) {
-            case IOType.text: loadText(fileName); break;
+            case IOType.text: parse(fileName); break;
             case IOType.bin: new BinReader(p_root).read(fullPath); break;
             default:
                 break;
         }
     }
 
+    /// Load file in compile time
     void staticLoad(string fileName, IOType rt = IOType.text)() {
         p_staticLoad = true;
 
         switch (rt) {
-            case IOType.text: staticLoadText!(fileName)(); break;
+            case IOType.text: staticParse!(fileName)(); break;
             case IOType.bin: break;
             default:
                 break;
         }
     }
 
+    /// Save data tree to the external file
     void save(in string fileName, in IOType wt = IOType.text) {
         Writer writer;
 
@@ -67,29 +85,19 @@ class RPDLTree {
         writer.save(fullPath);
     }
 
+    /// If true then this tree was loaded in compile time
     @property bool isStaticLoaded() { return p_staticLoad; }
+
+    /// Root node
     @property Node root() { return p_root; }
+
+    /**
+     * Base direcotry. Relative to this dierectory
+     * will be loaded files via `load` and `staticLoad`
+     */
     @property string rootDirectory() { return p_rootDirectory; }
 
-    void loadText(in string fileName) {
-        SymbolStream stream = new SymbolStream(rootDirectory ~ dirSeparator ~ fileName);
-
-        this.lexer  = new Lexer(stream);
-        this.parser = new Parser(lexer, this);
-
-        this.parser.parse();
-    }
-
-    void staticLoadText(string fileName)() {
-        const fullPath = rootDirectory ~ dirSeparator ~ fileName;
-        SymbolStream stream = CTSymbolStream.createFromFile!(fullPath)();
-
-        this.lexer  = new Lexer(stream);
-        this.parser = new Parser(lexer, this);
-
-        this.parser.parse();
-    }
-
+    /// Alias to the `root`
     @property Node data() {
         return p_root;
     }
@@ -101,9 +109,29 @@ private:
     string p_rootDirectory;
     Node p_root;
     bool p_staticLoad = false;
+
+package:
+    void parse(in string fileName) {
+        SymbolStream stream = new SymbolStream(rootDirectory ~ dirSeparator ~ fileName);
+
+        this.lexer  = new Lexer(stream);
+        this.parser = new Parser(lexer, this);
+
+        this.parser.parse();
+    }
+
+    void staticParse(string fileName)() {
+        const fullPath = rootDirectory ~ dirSeparator ~ fileName;
+        SymbolStream stream = CTSymbolStream.createFromFile!(fullPath)();
+
+        this.lexer  = new Lexer(stream);
+        this.parser = new Parser(lexer, this);
+
+        this.parser.parse();
+    }
 }
 
-
+///
 unittest {
     import std.path;
     import std.file;

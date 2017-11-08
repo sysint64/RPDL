@@ -8,10 +8,19 @@ import std.conv;
 import rpdl.stream;
 import rpdl.lexer : LexerError;
 
-
+/// Base token
 class Token {
 public:
-    enum Code {none, id, number, string, boolean, include};
+    /// Available tokens
+    enum Code {
+        none,
+        id,  /// `Token` is `IdToken` and has `identifier` property
+        number,  /// `Token` is `NumberToken` and has `number` property
+        string,  /// `Token` is `StringToken` and has `identifier`, `str` and `utfStr` properties
+        boolean,  /// `Token` has `boolean` property
+        include  /// include keyword
+    };
+
     this(SymbolStream stream) {
         this.stream = stream;
         this.p_indent = stream.indent;
@@ -46,7 +55,7 @@ protected:
     int p_pos;
 }
 
-
+/// Special symbol like '=', '+', '%' etc.
 class SymbolToken : Token {
     this(SymbolStream stream, in char symbol) {
         super(stream);
@@ -54,7 +63,7 @@ class SymbolToken : Token {
     }
 }
 
-
+/// String value - get this token if symbol start with $(GREEN ")
 class StringToken : Token {
     this(SymbolStream stream) {
         super(stream);
@@ -98,8 +107,7 @@ private:
     }
 }
 
-
-// Number Float or Integer: [0-9]+ (.[0-9]+)?
+/// Number Float or Integer $(GREEN [0-9]+ (.[0-9]+)?)
 class NumberToken : Token {
     this(SymbolStream stream, in bool negative = false) {
         super(stream);
@@ -135,8 +143,7 @@ private:
     }
 }
 
-
-// Identifier: [a-zA-Z_][a-zA-Z0-9_]*
+/// Identifier $(GREEN [a-zA-Z_][a-zA-Z0-9_]*)
 class IdToken : Token {
     this(SymbolStream stream) {
         super(stream);

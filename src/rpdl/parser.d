@@ -14,7 +14,6 @@ import rpdl.value;
 import rpdl.tree;
 import rpdl.exception;
 
-
 class ParseError : Exception {
     this(in uint line, in uint pos, in string details) {
         auto writer = appender!string();
@@ -23,11 +22,13 @@ class ParseError : Exception {
     }
 }
 
-
 class Parser {
-    this(Lexer lexer, RPDLTree data) {
+    /**
+     * Parsing file into the `tree`
+     */
+    this(Lexer lexer, RPDLTree tree) {
         this.lexer = lexer;
-        this.data = data;
+        this.data = tree;
     }
 
     void parse() {
@@ -190,7 +191,7 @@ private:
             throw new ParseError(line, pos, "expected '\"'");
 
         if (!data.isStaticLoaded) {
-            data.loadText(lexer.currentToken.str);
+            data.parse(lexer.currentToken.str);
         } else {
             throw new IncludeNotAllowedAtCTException();
         }
