@@ -1,5 +1,9 @@
 /**
  * Values nodes
+ *
+ * Copyright: © 2017 RedGoosePaws
+ * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+ * Authors: Andrey Kabylin
  */
 module rpdl.value;
 

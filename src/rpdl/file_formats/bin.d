@@ -1,3 +1,11 @@
+/**
+ * Binary format (represents as bytecode)
+ *
+ * Copyright: © 2017 RedGoosePaws
+ * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+ * Authors: Andrey Kabylin
+ */
+
 module rpdl.file_formats.bin;
 
 import std.conv;
@@ -19,7 +27,7 @@ enum OpCode {
     stringValue = 0x07,  /// Represent `rpdl.value.StringValue`
     identifierValue = 0x08,  /// Represent `rpdl.value.IdentifierValue`
     arrayValue = 0x09  /// Represent `rpdl.value.ArrayValue`
-}   
+}
 
 /// Tree writer to byte code
 class BinWriter : Writer {

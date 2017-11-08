@@ -1,3 +1,11 @@
+/**
+ * Interface for reading files and convert it to the `rpdl.tree.RPDLTree`
+ *
+ * Copyright: © 2017 RedGoosePaws
+ * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+ * Authors: Andrey Kabylin
+ */
+
 module rpdl.reader;
 
 import std.file;
@@ -10,7 +18,7 @@ import rpdl.exception;
 
 /// Declare interface for readers and tell them - how to read each type of node to file.
 interface IReader {
-    /// 
+    ///
     void readObjects();
 
     /// Read `rpdl.node.ObjectNode` and insert it to `parent`

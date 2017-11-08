@@ -1,3 +1,11 @@
+/**
+ * Parsed tree
+ *
+ * Copyright: © 2017 RedGoosePaws
+ * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+ * Authors: Andrey Kabylin
+ */
+
 module rpdl.tree;
 
 import std.file;
@@ -28,7 +36,7 @@ class RPDLTree {
          * Parsing tree for loading
          * and using `rpdl.file_formats.text.TextWriter` for saving
          */
-        text, 
+        text,
 
         /**
          * Using `rpdl.file_formats.bin.BinReader` loading
@@ -131,7 +139,7 @@ package:
     }
 }
 
-///
+/// See all accessors in `rpdl.accessors.Accessors`
 unittest {
     import std.path;
     import std.file;

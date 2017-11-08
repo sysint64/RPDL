@@ -1,3 +1,11 @@
+/**
+ * Syntax analyzer
+ *
+ * Copyright: © 2017 RedGoosePaws
+ * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+ * Authors: Andrey Kabylin
+ */
+
 module rpdl.parser;
 
 import std.stdio;
@@ -22,6 +30,10 @@ class ParseError : Exception {
     }
 }
 
+/**
+ * Parser checks if the declared data is syntactically correct
+ * and convert declared data to the `rpdl.tree.RPDLTree`
+ */
 class Parser {
     /**
      * Parsing file into the `tree`

@@ -1,3 +1,11 @@
+/**
+ * Lexical analyzer
+ *
+ * Copyright: © 2017 RedGoosePaws
+ * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+ * Authors: Andrey Kabylin
+ */
+
 module rpdl.lexer;
 
 import std.stdio;
@@ -18,12 +26,13 @@ class LexerError : Exception {
 
 /// Lexical analyzer - convert steam of symbols to stream of tokens
 class Lexer {
+    /// Create lexer with `rpdl.stream.IStream`
     this(SymbolStream stream) {
         this.stream = stream;
         stream.read();
     }
 
-    /// Get next token in the stream
+    /// Get next token in the stream and store it to `currentToken`
     Token nextToken() {
         if (stackCursor < tokenStack.length) {
             p_currentToken = tokenStack[stackCursor++];
@@ -36,7 +45,7 @@ class Lexer {
         return p_currentToken;
     }
 
-    /// Get previous token in the stream
+    /// Get previous token in the stream and store it to `currentToken`
     Token prevToken() {
         --stackCursor;
         p_currentToken = tokenStack[stackCursor-1];
