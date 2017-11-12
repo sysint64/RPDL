@@ -60,13 +60,13 @@ protected:
     Node root;
     File file;
 
-    override void readObjects();
-    override void readObject(Node parent);
-    override void readParameter(Node parent);
-    override void readValue(Node parent);
-    override void readNumberValue(Node parent);
-    override void readBooleanValue(Node parent);
-    override void readStringValue(Node parent);
-    override void readIdentifierValue(Node parent);
-    override void readArrayValue(Node parent);
+    override void readObjects() {}
+    override void readObject(Node parent) {}
+    override void readParameter(Node parent) {}
+    override void readValue(Node parent) {}
+    override void readNumberValue(Node parent) {}
+    override void readBooleanValue(Node parent) {}
+    override void readStringValue(Node parent) {}
+    override void readIdentifierValue(Node parent) {}
+    override void readArrayValue(Node parent) {}
 }

@@ -134,13 +134,13 @@ protected:
         }
     }
 
-    override void writeNumberValue(NumberValue value);
+    override void writeNumberValue(NumberValue value) {}
 
-    override void writeBooleanValue(BooleanValue value);
+    override void writeBooleanValue(BooleanValue value) {}
 
-    override void writeStringValue(StringValue value);
+    override void writeStringValue(StringValue value) {}
 
-    override void writeIdentifierValue(IdentifierValue value);
+    override void writeIdentifierValue(IdentifierValue value) {}
 
     override void writeArrayValue(ArrayValue array) {
         foreach (Node node; array.children)

@@ -12,3 +12,4 @@ rpdl-test-*
 *.o
 *.obj
 *.lst
+*.a
