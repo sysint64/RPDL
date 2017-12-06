@@ -92,24 +92,28 @@ class NotArrayValueException : RPDLException {
 class NotVec2Exception : RPDLException {
     this() { super("it is not a vec2 value"); }
     this(in string details) { super(details); }
+    static @property string typeName() { return "vec2"; }
 }
 
 /// Found value is not a `vec3`
 class NotVec3Exception : RPDLException {
     this() { super("it is not a vec3 value"); }
     this(in string details) { super(details); }
+    static @property string typeName() { return "vec3"; }
 }
 
 /// Found value is not a `vec4`
 class NotVec4Exception : RPDLException {
     this() { super("it is not a vec4 value"); }
     this(in string details) { super(details); }
+    static @property string typeName() { return "vec4"; }
 }
 
 /// Found value is not a `vec3` nor `vec4`
 class NotVec3OrVec4Exception : RPDLException {
     this() { super("it is not a vec3 or vec4 value"); }
     this(in string details) { super(details); }
+    static @property string typeName() { return "vec3 of vec4"; }
 }
 
 class WrongNodeType : RPDLException {

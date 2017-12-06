@@ -518,7 +518,7 @@ mixin template Accessors() {
         T object = cast(T)(node);
 
         if (object is null)
-            throw new E("Node with path \"" ~ path ~ "\" is not an " ~ E.typeName);
+            throw new E("Node with path \"" ~ path ~ "\" is not a " ~ E.typeName);
 
         return cast(T)(node);
     }
@@ -585,7 +585,7 @@ mixin template Accessors() {
         if (node is null)
             throw new NotFoundException("Node with path \"" ~ path ~ "\" not found");
 
-        return getVecValueFromNode!(T, n, E)(node);
+        return getVecValueFromNode!(T, n, E)(path, node);
     }
 
     /**
@@ -596,9 +596,11 @@ mixin template Accessors() {
      * Throw: `E` when length of components not equals `n` or one of child components is null
      * See_also: `getVecValue`, `optVecValue`
      */
-    private Vector!(T, n) getVecValueFromNode(T, int n, E : RPDLException)(Node node) {
+    private Vector!(T, n) getVecValueFromNode(T, int n, E : RPDLException)(in string path, Node node) {
+        const exceptionDetails = "Node with path \"" ~ path ~ "\" is not an " ~ E.typeName;
+
         if (node.length != n)
-            throw new E();
+            throw new E(exceptionDetails);
 
         NumberValue[n] vectorComponents;
         T[n] values;
@@ -607,7 +609,7 @@ mixin template Accessors() {
             vectorComponents[i] = cast(NumberValue) node.getAtIndex(i);
 
             if (vectorComponents[i] is null)
-                throw new E();
+                throw new E(exceptionDetails);
 
             values[i] = to!T(vectorComponents[i].value);
         }
@@ -631,7 +633,7 @@ mixin template Accessors() {
         if (node is null)
             return defaultVal;
 
-        return getVecValueFromNode!(T, n, E)(node);
+        return getVecValueFromNode!(T, n, E)(path, node);
     }
 }
 
