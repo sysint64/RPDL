@@ -3,7 +3,6 @@
  *
  * Copyright: © 2017 RedGoosePaws
  * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
- * Authors: Andrey Kabylin
  */
 
 module rpdl.parser;
@@ -32,13 +31,13 @@ class ParseError : Exception {
 
 /**
  * Parser checks if the declared data is syntactically correct
- * and convert declared data to the `rpdl.tree.RPDLTree`
+ * and convert declared data to the `rpdl.tree.RpdlTree`
  */
 class Parser {
     /**
      * Parsing file into the `tree`
      */
-    this(Lexer lexer, RPDLTree tree) {
+    this(Lexer lexer, RpdlTree tree) {
         this.lexer = lexer;
         this.data = tree;
     }
@@ -61,7 +60,7 @@ class Parser {
     @property int pos()    { return lexer.currentToken.pos;    }
 
 private:
-    RPDLTree data;
+    RpdlTree data;
     Lexer lexer;
 
     void parseObject(Node parent) {

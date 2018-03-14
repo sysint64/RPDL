@@ -3,7 +3,6 @@
  *
  * Copyright: © 2017 RedGoosePaws
  * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
- * Authors: Andrey Kabylin
  */
 
 module rpdl.tree;
@@ -29,9 +28,9 @@ import rpdl.accessors;
 import gl3n.linalg;
 
 /// Tree with loaded data
-class RPDLTree {
+class RpdlTree {
     /// Read/Write type
-    enum IOType {
+    enum FileType {
         /**
          * Parsing tree for loading
          * and using `rpdl.file_formats.text.TextWriter` for saving
@@ -43,7 +42,7 @@ class RPDLTree {
          * and using `rpdl.file_formats.bin.BinWriter` for saving
          */
         bin
-    };
+    }
 
     /**
      * Create tree with base directory relative to this dierectory
@@ -55,36 +54,36 @@ class RPDLTree {
     }
 
     /// Load file in runtime
-    void load(in string fileName, in IOType rt = IOType.text) {
+    void load(in string fileName, in FileType rt = FileType.text) {
         const string fullPath = rootDirectory ~ dirSeparator ~ fileName;
 
         switch (rt) {
-            case IOType.text: parse(fileName); break;
-            case IOType.bin: new BinReader(p_root).read(fullPath); break;
+            case FileType.text: parse(fileName); break;
+            case FileType.bin: new BinReader(p_root).read(fullPath); break;
             default:
                 break;
         }
     }
 
     /// Load file in compile time
-    void staticLoad(string fileName, IOType rt = IOType.text)() {
+    void staticLoad(string fileName, FileType rt = FileType.text)() {
         p_staticLoad = true;
 
         switch (rt) {
-            case IOType.text: staticParse!(fileName)(); break;
-            case IOType.bin: break;
+            case FileType.text: staticParse!(fileName)(); break;
+            case FileType.bin: break;
             default:
                 break;
         }
     }
 
     /// Save data tree to the external file
-    void save(in string fileName, in IOType wt = IOType.text) {
+    void save(in string fileName, in FileType wt = FileType.text) {
         Writer writer;
 
         switch (wt) {
-            case IOType.text: writer = new TextWriter(p_root); break;
-            case IOType.bin: writer = new BinWriter(p_root); break;
+            case FileType.text: writer = new TextWriter(p_root); break;
+            case FileType.bin: writer = new BinWriter(p_root); break;
             default:
                 return;
         }
@@ -147,7 +146,7 @@ unittest {
     const binDirectory = dirName(thisExePath());
     const testsDirectory = buildPath(binDirectory, "tests");
 
-    auto tree = new RPDLTree(testsDirectory);
+    auto tree = new RpdlTree(testsDirectory);
     tree.load("simple.rdl");
 
     with (tree.data) {
@@ -164,7 +163,7 @@ unittest {
 
         assert(getVec2f("Rombik.size.0") == Vector!(float, 2)(320, 128));
         assert(getVec2f("Rombik.size2") == Vector!(float, 2)(64, 1024));
-        try { getVec2f("Rombik.size.1"); assert(false); } catch(NotVec2Exception) {}
+        try { getVec2f("Rombik.size.1"); assert(false); } catch(WrongNodeType) {}
 
         assert(getVec4f("Rombik.texCoord.0") == Vector!(float, 4)(10, 15, 32, 64));
         assert(getVec4f("Rombik.texCoord2") == Vector!(float, 4)(5, 3, 16, 24));

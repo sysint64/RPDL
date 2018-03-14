@@ -61,15 +61,15 @@ TestInclude
 ## Example of usage
 
 ```D
-auto data = new RPDLTree("tests");  // set root directory as "tests"
+auto data = new RpdlTree("tests");  // set root directory as "tests"
 data.load("simple.rdl");
-data.load("file2.bin", RPDLTree.IOType.bin);  // load bytecode
+data.load("file2.bin", RpdlTree.FileType.bin);  // load bytecode
 
 assert(data.getNumber("Test.Test2.p2.0") == 2);
 assert(data.optVec4f("Rombik.texCoord2", vec4(0, 1, 2, 3)) == (5, 3, 16, 24));
 assert(data.optVec4f("Rombik.texCoord3", vec4(0, 1, 2, 3)) == vec4(0, 1, 2, 3));
 
-data.save("compiled.bin", RPDLTree.IOType.bin);  // Save to bytecode
+data.save("compiled.bin", RpdlTree.FileType.bin);  // Save to bytecode
 ```
 
 ## Language reference

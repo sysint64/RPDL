@@ -1,18 +1,13 @@
 /**
- * Values nodes
- *
  * Copyright: © 2017 RedGoosePaws
  * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
- * Authors: Andrey Kabylin
  */
 module rpdl.value;
 
 import rpdl.node;
 import std.conv;
 
-/// Base class of value
 class Value: Node {
-    /// Type of value
     enum Type {Number, String, Identifier, Boolean, Array};
 
     this(in string name) { super(name); }
@@ -24,7 +19,7 @@ protected:
     Type p_type;
 }
 
-class NumberValue: Value {
+final class NumberValue: Value {
     @property float value() { return p_value; }
 
     this(in string name, in float value) {
@@ -37,11 +32,11 @@ class NumberValue: Value {
         return to!string(p_value);
     }
 
-protected:
+private:
     float p_value;
 }
 
-class BooleanValue : Value {
+final class BooleanValue : Value {
     @property bool value() { return p_value; }
 
     this(in string name, in bool value) {
@@ -84,7 +79,7 @@ private:
     dstring p_utfValue;
 }
 
-class IdentifierValue : StringValue {
+final class IdentifierValue : StringValue {
     this(in string name, in string value) {
         super(name, value);
         this.p_type = Type.Identifier;
@@ -100,7 +95,7 @@ class IdentifierValue : StringValue {
     }
 }
 
-class ArrayValue: Value {
+final class ArrayValue: Value {
     this(in string name) {
         super(name);
         this.p_type = Type.Array;

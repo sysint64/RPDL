@@ -1,9 +1,6 @@
 /**
- * Text format
- *
  * Copyright: © 2017 RedGoosePaws
  * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
- * Authors: Andrey Kabylin
  */
 
 module rpdl.file_formats.text;
@@ -15,12 +12,12 @@ import rpdl.value;
 import rpdl.writer;
 
 /// Tree writer to text file
-class TextWriter : Writer {
+final class TextWriter : Writer {
     /**
-     * Write `root` node and it children to text file
+     * Write `root` node and it children to text file.
      * Params:
-     *     root = Root node which need to write
-     *     indentSize = indentation size of items
+     *     root = Root node which need to write.
+     *     indentSize = indentation size of items.
      */
     this(Node root, in int indentSize = 4) {
         super(root);
@@ -28,12 +25,12 @@ class TextWriter : Writer {
     }
 
 protected:
-    int depth = 0;  /// Current depth
+    int currentDepth = 0;
     int indentSize = 0;
 
-    /// Write current indentation - depth * indentSize
+    /// Write current indentation.
     void writeIndent() {
-        for (int i = 0; i < depth*indentSize; ++i)
+        for (int i = 0; i < currentDepth*indentSize; ++i)
             rawWrite(' ');
     }
 
@@ -41,9 +38,9 @@ protected:
         writeIndent();
         rawWrite(object.name);
         rawWrite('\n');
-        ++depth;
+        ++currentDepth;
         super.writeObject(object);
-        --depth;
+        --currentDepth;
     }
 
     override void writeParameter(Parameter parameter) {

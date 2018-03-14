@@ -3,7 +3,6 @@
  *
  * Copyright: © 2017 RedGoosePaws
  * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
- * Authors: Andrey Kabylin
  */
 
 module rpdl.node;
@@ -63,6 +62,15 @@ class Node {
     /// Find node relative to this node by the path
     Node getNode(in string relativePath) {
         return findNodeByPath(relativePath, this);
+    }
+
+    Node optNode(in string path, Node defaultVal = null) {
+        Node node = findNodeByPath(path, getRootNode());
+
+        if (node is null)
+            return defaultVal;
+
+        return node;
     }
 
     mixin Accessors;

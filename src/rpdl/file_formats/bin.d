@@ -3,7 +3,6 @@
  *
  * Copyright: © 2017 RedGoosePaws
  * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
- * Authors: Andrey Kabylin
  */
 
 module rpdl.file_formats.bin;
@@ -39,19 +38,18 @@ class BinWriter : Writer {
     }
 
 protected:
-    /// Write name of `rpdl.node.Node` as binary data - pair of name length and name data
+    /// Write name of `node` - pair of name length and name data.
     void writeName(Node node) {
         rawWrite(cast(ubyte) node.name.length);
         rawWrite(node.name);
     }
 
-    /// Write string as binary data - pair of string length and string data
+    /// Pair of string length and string data.
     void writeString(string str) {
         rawWrite(cast(ubyte) str.length);
         rawWrite(str);
     }
 
-    /// Write `rpdl.writer.BinWriter.OpCode` to file as one byte
     void writeOpCode(OpCode code) {
         rawWrite(cast(ubyte) code);
     }
@@ -102,7 +100,7 @@ protected:
     }
 }
 
-/// Tree reader from byte code
+/// Tree reader from byte code.
 class BinReader : Reader {
     this(Node root) { super(root); }
 

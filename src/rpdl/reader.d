@@ -1,9 +1,8 @@
 /**
- * Interface for reading files and convert it to the `rpdl.tree.RPDLTree`
+ * Interface for reading files and convert it to the `rpdl.tree.RpdlTree`
  *
  * Copyright: © 2017 RedGoosePaws
  * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
- * Authors: Andrey Kabylin
  */
 
 module rpdl.reader;

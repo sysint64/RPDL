@@ -1,9 +1,8 @@
 /**
- * Interface for writing `rpdl.tree.RPDLTree` to the external files
+ * Interface for writing `rpdl.tree.RpdlTree` to the external files
  *
  * Copyright: © 2017 RedGoosePaws
  * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
- * Authors: Andrey Kabylin
  */
 module rpdl.writer;
 
@@ -17,28 +16,13 @@ import rpdl.exception;
 
 /// Declare interface for writers and tell them - how to write each type of node to file.
 interface IWriter {
-    /// Write `rpdl.node.ObjectNode`
     void writeObject(ObjectNode object);
-
-    /// Write `rpdl.node.Parameter`
     void writeParameter(Parameter parameter);
-
-    /// Write `rpdl.value.Value`
     void writeValue(Value value);
-
-    /// Write `rpdl.value.NumberValue`
     void writeNumberValue(NumberValue value);
-
-    /// Write `rpdl.value.BooleanValue`
     void writeBooleanValue(BooleanValue value);
-
-    /// Write `rpdl.value.StringValue`
     void writeStringValue(StringValue value);
-
-    /// Write `rpdl.value.IdentifierValue`
     void writeIdentifierValue(IdentifierValue value);
-
-    /// Write `rpdl.value.ArrayValue`
     void writeArrayValue(ArrayValue array);
 }
 
@@ -92,7 +76,7 @@ protected:
             } else if (cast(ObjectNode) child) {
                 writeObject(cast(ObjectNode) child);
             } else {
-                throw new NotParameterOrValueException();
+                throw new WrongNodeType("Should be Value or Parameter");
             }
         }
     }
@@ -102,7 +86,7 @@ protected:
             if (cast(Value) child) {
                 writeValue(cast(Value) child);
             } else {
-                throw new NotValueException();
+                throw new WrongNodeType("Should be Value");
             }
         }
     }
