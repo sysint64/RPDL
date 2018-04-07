@@ -1,7 +1,7 @@
 /**
  * Interface for reading files and convert it to the `rpdl.tree.RpdlTree`
  *
- * Copyright: © 2017 RedGoosePaws
+ * Copyright: © 2017 Andrey Kabylin
  * License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
  */
 
