@@ -115,7 +115,7 @@ private:
         stream.read();
     }
 
-    string readUnicode() {
+    dchar readUnicode() {
         enum hexChars = "0123456789abcdefABCDEF";
         string unicode = "";
 
@@ -128,7 +128,7 @@ private:
             unicode ~= stream.lastChar;
         }
 
-        return "";
+        return unicode.to!ulong(16).to!dchar;
     }
 }
 
