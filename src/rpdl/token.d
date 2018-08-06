@@ -10,6 +10,7 @@ module rpdl.token;
 import std.ascii;
 import std.uni : toLower;
 import std.algorithm.iteration : map;
+import std.algorithm.searching;
 import std.conv;
 
 import rpdl.stream;
@@ -26,7 +27,7 @@ public:
         string,  /// `Token` is `StringToken` and has `identifier`, `str` and `utfStr` properties
         boolean,  /// `Token` has `boolean` property
         include  /// include keyword
-    };
+    }
 
     this(SymbolStream stream) {
         this.stream = stream;
@@ -78,22 +79,6 @@ class StringToken : Token {
     }
 
 private:
-    void lexEscape() {
-        stream.read();
-
-        switch (stream.lastChar) {
-            case 'n' : p_string ~= "\n"; break;
-            case 'r' : p_string ~= "\r"; break;
-            case '\\': p_string ~= "\\"; break;
-            case '\"': p_string ~= "\""; break;
-            default:
-                auto message = "undefined escape sequence \\" ~ stream.lastChar;
-                throw new LexerError(stream.line, stream.pos, message);
-        }
-
-        stream.read();
-    }
-
     void lex() {
         do {
             stream.read();
@@ -111,6 +96,39 @@ private:
 
         p_code = Code.string;
         p_utfstring = to!dstring(p_string);
+    }
+
+    void lexEscape() {
+        stream.read();
+
+        switch (stream.lastChar) {
+            case 'n' : p_string ~= "\n"; break;
+            case 'r' : p_string ~= "\r"; break;
+            case '\\': p_string ~= "\\"; break;
+            case '\"': p_string ~= "\""; break;
+            case 'u': p_string ~= readUnicode(); break;
+            default:
+                auto message = "undefined escape sequence \\" ~ stream.lastChar;
+                throw new LexerError(stream.line, stream.pos, message);
+        }
+
+        stream.read();
+    }
+
+    string readUnicode() {
+        enum hexChars = "0123456789abcdefABCDEF";
+        string unicode = "";
+
+        for (int i = 0; i < 4; ++i) {
+            stream.read();
+
+            if (!hexChars.canFind(stream.lastChar) || stream.eof)
+                throw new LexerError(stream.line, stream.pos, "bad unicode");
+
+            unicode ~= stream.lastChar;
+        }
+
+        return "";
     }
 }
 

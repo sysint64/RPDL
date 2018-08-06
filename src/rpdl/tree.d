@@ -138,11 +138,13 @@ package:
     }
 }
 
-/// See all accessors in `rpdl.accessors.Accessors`
-unittest {
+version(unittest) {
     import std.path;
     import std.file;
+}
 
+/// See all accessors in `rpdl.accessors.Accessors`
+unittest {
     const binDirectory = dirName(thisExePath());
     const testsDirectory = buildPath(binDirectory, "tests");
 

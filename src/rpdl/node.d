@@ -78,7 +78,6 @@ class Node {
 protected:
     string p_name;
     string p_path;  // Key for find node
-    alias p_root = this;
 
     Node p_parent;
     Array!Node p_children;

@@ -45,21 +45,21 @@ mixin template Accessors() {
     alias optString = optTypedValue!(string, StringValue);
     alias optIdentifier = optTypedValue!(string, IdentifierValue);
 
-    dstring getUTFString(in string path) {
-        return getTypedNode!(StringValue)(path).utfValue;
+    dstring getUTF32String(in string path) {
+        return getTypedNode!(StringValue)(path).utf32Value;
     }
 
     int getInteger(in string path) {
         return to!int(getNumber(path));
     }
 
-    dstring optUTFString(in string path, dstring defaultVal = dstring.init) {
+    dstring optUTF32String(in string path, dstring defaultVal = dstring.init) {
         StringValue node = optTypedNode!(StringValue)(path, null);
 
         if (node is null)
             return defaultVal;
 
-        return node.utfValue;
+        return node.utf32Value;
     }
 
     int optInteger(in string path, int defaultVal = 0) {
