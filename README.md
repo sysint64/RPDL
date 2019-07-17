@@ -78,6 +78,6 @@ WIP
 
 ## Roadmap
 
-- Add type system
+- Inheritance
+- Overriding
 - Finish compile time loading
-- Add dapt compile time loading (for include support in ct)
