@@ -69,7 +69,8 @@ protected:
 
     /// Read one symbol from file and store it to `lastChar`
     char readChar() {
-        auto buf = file.rawRead(new char[1]);
+        char[1] buf;
+        file.rawRead!char(buf);
         ++p_pos;
 
         if (file.eof) p_lastChar = char.init;

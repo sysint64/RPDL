@@ -53,6 +53,13 @@ class RpdlTree {
         p_root = new Node("", true);
     }
 
+    /// Insert all nodes from `tree`
+    void merge(RpdlTree tree) {
+        foreach (node; tree.root.children) {
+            p_root.insert(node);
+        }
+    }
+
     /// Load file in runtime
     void load(in string fileName, in FileType rt = FileType.text) {
         const string fullPath = rootDirectory ~ dirSeparator ~ fileName;
