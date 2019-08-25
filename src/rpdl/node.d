@@ -80,6 +80,7 @@ protected:
     string p_path;  // Key for find node
 
     Node p_parent;
+    package Node inherit;
     Array!Node p_children;
 
     /// Update path relative to `root`
@@ -109,6 +110,15 @@ private:
 
             if (findNode !is null)
                 return findNode;
+        }
+
+        if (node.inherit !is null) {
+            import std.stdio : writeln;
+
+            const relative = relativePath[node.name.length + 1 .. $];
+            const inheritPath = node.inherit.name ~ "." ~ relative;
+
+            return findNodeByPath(inheritPath, node.inherit);
         }
 
         return null;

@@ -20,6 +20,7 @@ import rpdl.node;
 import rpdl.value;
 import rpdl.tree;
 import rpdl.exception;
+import rpdl.accessors;
 
 class ParseError : Exception {
     this(in uint line, in uint pos, in string details) {
@@ -55,9 +56,17 @@ class Parser {
         }
     }
 
-    @property int indent() { return lexer.currentToken.indent; }
-    @property int line()   { return lexer.currentToken.line;   }
-    @property int pos()    { return lexer.currentToken.pos;    }
+    @property int indent() {
+        return lexer.currentToken.indent;
+    }
+
+    @property int line() {
+        return lexer.currentToken.line;
+    }
+
+    @property int pos() {
+        return lexer.currentToken.pos;
+    }
 
 private:
     RpdlTree data;
@@ -80,6 +89,7 @@ private:
                 throw new ParseError(line, pos, "expected identifier");
 
             type = lexer.currentToken.identifier;
+            node.inherit = data.data.getObjectNode(type);
             lexer.nextToken();
 
             if (lexer.currentToken.symbol != ')')

@@ -179,6 +179,11 @@ unittest {
 
         assert(optVec4f("Rombik.texCoord2", Vector!(float, 4)(0, 1, 2, 3)) == Vector!(float, 4)(5, 3, 16, 24));
         assert(optVec4f("Rombik.texCoord3", Vector!(float, 4)(0, 1, 2, 3)) == Vector!(float, 4)(0, 1, 2, 3));
+
+        // Inheritance
+        assert(getVec2f("Test.p1") == Vector!(float, 2)(1.231, 3));
+        assert(getString("Test.p0.0") == "Hello world!");
+        assert(getVec4f("Test.Nest.color") == Vector!(float, 4)(255, 0, 0, 100));
     }
 
     // TODO: Tests for relative pathes

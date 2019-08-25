@@ -17,6 +17,13 @@ Rombik
     texCoord: [10, 15, 32, 64]
     texCoord2: 5, 3, 16, 24
 
+Hello
+    p0: "Hello world!"
+    p1: 1.0, 2
+
+    Nest
+        color: 255, 0, 0, 100
+
 Test(Hello)
     p1: 1.231, 3
     array: [
@@ -30,6 +37,10 @@ Test(Hello)
 
         Test3 p4: aaa p5: bbb
 
-    Test4(test)
+    Test4
         p6: aaa
         p7: bbb
+
+    # include "include_params.rdl"
+        # title: "Test"
+        # vec: 0, 1, 2, 1
