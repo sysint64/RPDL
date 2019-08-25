@@ -21,8 +21,13 @@ Hello
     p0: "Hello world!"
     p1: 1.0, 2
 
+    include "include.rdl"
+
     Nest
         color: 255, 0, 0, 100
+        include "include.rdl"
+
+    include "include.rdl"
 
 Test(Hello)
     p1: 1.231, 3

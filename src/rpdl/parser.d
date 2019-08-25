@@ -49,7 +49,7 @@ class Parser {
         while (lexer.currentToken.code != Token.Code.none) {
             switch (lexer.currentToken.code) {
                 case Token.Code.id: parseObject(data.root); break;
-                case Token.Code.include: parseInclude(); break;
+                case Token.Code.include: parseInclude(data.root); break;
                 default:
                     throw new ParseError(line, pos, "unknown identifier");
             }
@@ -108,8 +108,13 @@ private:
         int counter = 0;
 
         while (true) {
+            if (lexer.currentToken.code == Token.Code.include) {
+                parseInclude(node);
+                continue;
+            }
+
             string paramName = lexer.currentToken.identifier;
-            int targetIndent = indent-1;
+            int targetIndent = indent - 1;
 
             lexer.nextToken();
 
@@ -205,14 +210,19 @@ private:
         parent.insert(array);
     }
 
-    void parseInclude() {
+    void parseInclude(Node parent) {
         lexer.nextToken();
 
         if (lexer.currentToken.code != Token.Code.string)
             throw new ParseError(line, pos, "expected '\"'");
 
         if (!data.isStaticLoaded) {
-            data.parse(lexer.currentToken.str);
+            RpdlTree includeTree = new RpdlTree(data.p_rootDirectory);
+            includeTree.parse(lexer.currentToken.str);
+
+            foreach (Node child; includeTree.root.children) {
+                parent.insert(child);
+            }
         } else {
             throw new IncludeNotAllowedAtCTException();
         }

@@ -120,7 +120,7 @@ private:
     Lexer  lexer;
     Parser parser;
 
-    string p_rootDirectory;
+    package string p_rootDirectory;
     Node p_root;
     bool p_staticLoad = false;
 
@@ -184,6 +184,10 @@ unittest {
         assert(getVec2f("Test.p1") == Vector!(float, 2)(1.231, 3));
         assert(getString("Test.p0.0") == "Hello world!");
         assert(getVec4f("Test.Nest.color") == Vector!(float, 4)(255, 0, 0, 100));
+
+        // Nest include
+        assert(getString("Test.TestInclude.Linux.0") == "Arch");
+        assert(getString("Test.Nest.TestInclude.Linux.0") == "Arch");
     }
 
     // TODO: Tests for relative pathes
