@@ -51,6 +51,10 @@ Test(Hello)
         p6: aaa
         p7: bbb
 
-    # include "include_params.rdl"
-        # title: "Test"
-        # vec: 0, 1, 2, 1
+        include "include_params.rdl"
+            title: "Test"
+            factor: 1.5
+            vec: 0, 1, 2, 1
+            array: [1, 2, 4, [5, 6]]
+
+    include "include_params.rdl" title: "Test" vec: 0, 1, 2, 1 factor: 1.5 array: []

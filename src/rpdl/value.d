@@ -15,6 +15,10 @@ class Value: Node {
 
     @property Type type() { return p_type; }
 
+    Value clone(in string name) {
+        throw new Error("Not supported");
+    }
+
 protected:
     Type p_type;
 }
@@ -32,6 +36,10 @@ final class NumberValue: Value {
         return to!string(p_value);
     }
 
+    override Value clone(in string name) {
+        return new NumberValue(name, value);
+    }
+
 private:
     float p_value;
 }
@@ -47,6 +55,10 @@ final class BooleanValue : Value {
 
     override string toString() {
         return to!string(p_value);
+    }
+
+    override Value clone(in string name) {
+        return new BooleanValue(name, value);
     }
 
 private:
@@ -74,6 +86,10 @@ class StringValue : Value {
         return "\"" ~ to!string(p_value) ~ "\"";
     }
 
+    override Value clone(in string name) {
+        return new StringValue(name, value, utf32Value);
+    }
+
 private:
     string p_value;
     dstring p_utfValue;
@@ -93,11 +109,27 @@ final class IdentifierValue : StringValue {
     override string toString() {
         return to!string(p_value);
     }
+
+    override Value clone(in string name) {
+        return new IdentifierValue(name, value);
+    }
 }
 
 final class ArrayValue: Value {
     this(in string name) {
         super(name);
         this.p_type = Type.Array;
+    }
+
+    override Value clone(in string name) {
+        auto array = new ArrayValue(name);
+
+        foreach (child; children) {
+            auto value = cast(Value) child;
+            assert(value !is null);
+            array.insert(value.clone(to!string(array.children.length)));
+        }
+
+        return array;
     }
 }

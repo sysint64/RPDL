@@ -102,28 +102,46 @@ private:
         parseParameters(objectIndent, node);
     }
 
-    void parseParameters(in int objectIndent, Node node) {
+    void parseParameters(in int objectIndent, Node node, bool trace = false) {
         assert(node !is null);
+
+        const initialTargetIndent = indent - 1;
+        const initialLine = lexer.currentToken.line;
+
+        lexer.prevToken();
+
+        // Skip objects without parameters
+        if (objectIndent != initialTargetIndent && lexer.currentToken.line != initialLine) {
+            lexer.nextToken();
+            return;
+        }
+
+        lexer.nextToken();
 
         Token objectToken = lexer.currentToken;
         int counter = 0;
 
         while (true) {
+            string paramName = lexer.currentToken.identifier;
+            int targetIndent = indent - 1;
+
             if (lexer.currentToken.code == Token.Code.include) {
+                if (objectIndent != targetIndent && lexer.currentToken.line != objectToken.line) {
+                    lexer.nextToken();
+                    break;
+                }
+
                 parseInclude(node);
                 continue;
             }
-
-            string paramName = lexer.currentToken.identifier;
-            int targetIndent = indent - 1;
 
             lexer.nextToken();
 
             if (objectIndent != targetIndent && lexer.currentToken.line != objectToken.line)
                 break;
 
-            const auto code   = lexer.currentToken.code;
-            const auto symbol = lexer.currentToken.symbol;
+            const code   = lexer.currentToken.code;
+            const symbol = lexer.currentToken.symbol;
 
             if (code != Token.Code.id && symbol != ':' && symbol != '(')
                 break;
@@ -158,6 +176,11 @@ private:
 
     void parseValue(in string name, Node parent) {
         lexer.nextToken();
+
+        if (lexer.currentToken.symbol == '$') {
+            parseInjectedParam(name, parent);
+            return;
+        }
 
         if (lexer.currentToken.symbol == '[') {
             parseArray(name, parent);
@@ -194,6 +217,15 @@ private:
         const auto code = lexer.currentToken.code;
         ArrayValue array = new ArrayValue(name);
 
+        lexer.nextToken();
+
+        if (lexer.currentToken.symbol == ']') {
+            parent.insert(array);
+            return;
+        }
+
+        lexer.prevToken();
+
         while (code != ']' || code != Token.Code.none) {
             string valueName = to!string(array.children.length);
             parseValue(valueName, array);
@@ -211,15 +243,55 @@ private:
         parent.insert(array);
     }
 
+    void parseInjectedParam(in string name, Node parent) {
+        lexer.nextToken();
+
+        if (lexer.currentToken.code != Token.Code.id) {
+            throw new ParseError(line, pos, "expected identifier");
+        }
+
+        const injectParamName = lexer.currentToken.identifier;
+
+        assert(data.injectParams !is null);
+        assert(parent !is null);
+
+        Node paramNode = data.injectParams.getNode(injectParamName);
+
+        if (paramNode is null) {
+            throw new ParseError(line, pos, "inject parameter with name '" ~ injectParamName  ~ "' hasn't found");
+        }
+
+        foreach (child; paramNode.children) {
+            auto value = cast(Value) child;
+
+            if (value is null) {
+                throw new ParseError(line, pos, "inject parameter '" ~ injectParamName  ~ "' should be valid value");
+            }
+
+            auto cloned = value.clone(to!string(parent.children.length));
+            parent.insert(cloned);
+            writeln("PATH: ", cloned.path);
+        }
+    }
+
     void parseInclude(Node parent) {
+        const indent = lexer.currentToken.indent;
         lexer.nextToken();
 
         if (lexer.currentToken.code != Token.Code.string)
             throw new ParseError(line, pos, "expected '\"'");
 
         if (!data.isStaticLoaded) {
+            const fileName = lexer.currentToken.str;
+
+            Node injectedParams = new Node("", true);
+            lexer.nextToken();
+            parseParameters(indent, injectedParams, true);
+            lexer.prevToken();
+
             RpdlTree includeTree = new RpdlTree(data.p_rootDirectory);
-            includeTree.parse(lexer.currentToken.str);
+            includeTree.injectParams = injectedParams;
+            includeTree.parse(fileName);
 
             foreach (Node child; includeTree.root.children) {
                 parent.insert(child);

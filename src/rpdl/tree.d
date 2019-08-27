@@ -51,6 +51,7 @@ class RpdlTree {
     this(in string rootDirectory) {
         this.p_rootDirectory = rootDirectory;
         p_root = new Node("", true);
+        injectParams = new Node("", true);
     }
 
     /// Insert all nodes from `tree`
@@ -123,6 +124,7 @@ private:
     package string p_rootDirectory;
     Node p_root;
     bool p_staticLoad = false;
+    package Node injectParams;
 
 package:
     void parse(in string fileName) {
@@ -159,6 +161,16 @@ unittest {
     tree.load("simple.rdl");
 
     with (tree.data) {
+        auto writer = new TextWriter(tree.root);
+        writer.save("__test.rdl");
+
+        assert(getString("Test.Test5.name.0") == "Test");
+        assert(getVec4f("Test.Test5.vec") == Vector!(float, 4)(0, 1, 2, 1));
+        assert(getNumber("Test.Test5.test.4") == 3.5);
+        assert(getNumber("Test.Test5.test.5") == 1.5);
+        assert(getNumber("Test.Test4.Test5.test.6.0") == 1);
+        assert(getNumber("Test.Test4.Test5.test.6.3.1") == 6);
+        assert(getString("Test.Test4.Test5.name.0") == "Test");
         assert(getNumber("Test.Test2.p2.0") == 2);
         assert(getBoolean("Test.Test2.p2.1") == true);
         assert(getString("Test.Test2.p2.2") == "Hello");

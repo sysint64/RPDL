@@ -13,3 +13,4 @@ rpdl-test-*
 *.obj
 *.lst
 *.a
+__test.rdl

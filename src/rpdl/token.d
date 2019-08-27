@@ -26,7 +26,7 @@ public:
         number,  /// `Token` is `NumberToken` and has `number` property
         string,  /// `Token` is `StringToken` and has `identifier`, `str` and `utfStr` properties
         boolean,  /// `Token` has `boolean` property
-        include  /// include keyword
+        include,  /// include keyword
     }
 
     this(SymbolStream stream) {

@@ -1,3 +1,4 @@
 Test5
     name: $title
     vec: $vec
+    test: $vec, 3.5, $factor, $array
