@@ -270,7 +270,6 @@ private:
 
             auto cloned = value.clone(to!string(parent.children.length));
             parent.insert(cloned);
-            writeln("PATH: ", cloned.path);
         }
     }
 

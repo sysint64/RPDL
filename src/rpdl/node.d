@@ -116,8 +116,6 @@ private:
         if (node.inherit !is null) {
             import std.stdio : writeln;
 
-            writeln("NAME: ", node.name, ":", relativePath);
-
             if (relativePath.length < node.name.length + 1) {
                 return null;
             }
