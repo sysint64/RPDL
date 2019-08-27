@@ -8,6 +8,7 @@
 module rpdl.node;
 
 import std.stdio;
+import std.array;
 import std.container;
 import std.traits;
 import std.conv;
@@ -109,20 +110,17 @@ private:
 
             Node findNode = findNodeByPath(relativePath, child);
 
-            if (findNode !is null)
+            if (findNode !is null) {
                 return findNode;
+            }
         }
 
         if (node.inherit !is null) {
-            import std.stdio : writeln;
-
             if (relativePath.length < node.name.length + 1) {
                 return null;
             }
 
-            const relative = relativePath[node.name.length + 1 .. $];
-            const inheritPath = node.inherit.name ~ "." ~ relative;
-
+            const inheritPath = relativePath.replace(node.name ~ ".", node.inherit.name ~ ".");
             return findNodeByPath(inheritPath, node.inherit);
         }
 

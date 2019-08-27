@@ -215,7 +215,8 @@ unittest {
     tree.load("theme.rdl");
 
     with (tree.data) {
-        assert(getNumber("ListItem.iconGaps.0") == 2);
-        assert(getNumber("ListItem.Leave.left.1") == 35);
+        assert(getNumber("ListMenuItem.iconGaps.0") == 2);
+        assert(getNumber("ListMenuItem.Leave.left.1") == 35);
+        assert(getNumber("ListMenuItem.Leave.center.1") == 180);
     }
 }

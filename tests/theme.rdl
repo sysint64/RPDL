@@ -1,5 +1,5 @@
 General
-    regularFont             : "DejaVuSans.ttf", 18, strictAA
+    regularFont             : "DejaVuSans.ttf", 12, stretchAA
     # regularFont             : "SourceHanSerif-Regular.otf", 18, strictAA
 
 Button
@@ -13,22 +13,28 @@ Button
         left                : 55, 35, 5, 21
         center              : 68, 35, 5, 21
         right               : 81, 35, 5, 21
-        textOffset          : 1,  0
-        textColor           : 20, 20, 20
+
+        Text
+            offset          : 0,  -1
+            color           : 20, 20, 20
 
     Enter
         left                : 55, 59, 5, 21
         center              : 68, 59, 5, 21
         right               : 81, 59, 5, 21
-        textOffset          : 1,  0
-        textColor           : 40, 40, 40
+
+        Text
+            offset          : 0,  -1
+            color           : 40, 40, 40
 
     Click
         left                : 55, 83, 5, 21
         center              : 68, 83, 5, 21
         right               : 81, 83, 5, 21
-        textOffset          : 1,  1
-        textColor           : 0, 0, 0
+
+        Text
+            offset          : 0,  0
+            color           : 0, 0, 0
 
     Focus
         left                : 53, 105, 6, 25
@@ -37,41 +43,31 @@ Button
         offsets             : [-2, -2], 4
 
 Checkbox
-    Checked
-        Leave
-            element         : 55, 3, 16, 16
-            textColor       : 0, 0, 0
-            textOffset      : 21, 0
+    Leave
+        uncheckedBox        : 4, 3, 16, 16
+        checkedBox          : 55, 3, 16, 16
 
-        Enter
-            element         : 72, 3, 16, 16
-            textColor       : 0, 0, 0
-            textOffset      : 21, 0
+        Text
+            color           : 0, 0, 0
+            offset          : 21, 0
 
-    Unchecked
-        Leave
-            element         : 4, 3, 16, 16
-            textColor       : 0, 0, 0
-            textOffset      : 21, 0
+    Enter
+        uncheckedBox        : 21, 3, 16, 16
+        checkedBox          : 72, 3, 16, 16
 
-        Enter
-            element         : 21, 3, 16, 16
-            textColor       : 0, 0, 0
-            textOffset      : 21, 0
+        Text
+            color           : 100, 0, 0
+            offset          : 21, 0
 
     Focus
-        element             : 37, 3, 16, 16
+        glow                : 37, 3, 16, 16
         offsets             : -1, 0
 
 Label
     Regular
-        textOffset          : 0, 0
-        textColor           : 0, 0, 0
+        color               : 0, 0, 0, 100
 
 Panel
-    headerLeave             : 242, 85, 11, 20
-    headerEnter             : 257, 85, 11, 20
-
     backgroundLight         : 213, 213, 213, 100
     backgroundDark          : 172, 172, 172, 100
     backgroundAction        : 205, 205, 205, 100
@@ -80,11 +76,11 @@ Panel
         thickness           : 1
 
         Light
-            borderColor     : 0, 0, 0, 20
+            outerColor      : 0, 0, 0, 20
             innerColor      : 255, 255, 255, 30
 
         Dark
-            borderColor     : 0, 0, 0, 100
+            outerColor      : 0, 0, 0, 100
             innerColor      : 0, 0, 0, 0
 
     Header
@@ -92,15 +88,21 @@ Panel
 
         Leave
             background      : 242, 85, 11, 20
-            textOffset      : 6, 0
-            textColor       : 0, 0, 0
+
+            Text
+                offset      : 6, -1
+                color       : 0, 0, 0
+                textAlign   : left
 
         Enter
             background      : 257, 85, 11, 20
-            textOffset      : 6, 0
-            textColor       : 0, 0, 0
 
-        Arrow
+            Text
+                offset      : 6, -1
+                color       : 0, 0, 0
+                textAlign   : left
+
+        Mark
             open            : 5 , 21, 10, 10
             close           : 22, 21, 10, 10
             size            : 10, 10
@@ -110,6 +112,7 @@ Panel
         buttonMinSize       : 20
 
         Horizontal
+            regionWidth     : 10
             left            : 0, 0, 0, 10
             center          : 0, 0, 0, 10
             right           : 0, 0, 0, 10
@@ -131,6 +134,7 @@ Panel
                     right   : 262, 148, 8, 10
 
         Vertical
+            regionWidth     : 10
             top             : 0, 0, 10, 0
             middle          : 0, 0, 10, 0
             bottom          : 0, 0, 10, 0
@@ -161,6 +165,10 @@ TreeList
 TreeListNode
     openIcon                : 4, 152, 9, 9
     closeIcon               : 17, 152, 9, 9
+    expandButtonOffset      : -5, 5
+    enterExpandButtonAlpha  : 1
+    leaveExpandButtonAlpha  : 0.5
+    expandButtonBorders     : 5, 6, 5, 5
     iconOffsets             : 2, -1
     iconGaps                : 2
     textLeftMargin          : 9
@@ -170,22 +178,28 @@ TreeListNode
         left                : 55, 180, 5, 21
         center              : 68, 180, 5, 21
         right               : 81, 180, 5, 21
-        textOffset          : 0, 0
-        textColor           : 0, 0, 0
+
+        Text
+            offset          : 0, -1
+            color           : 0, 0, 0
 
     Enter
         left                : 55, 131, 5, 21
         center              : 68, 131, 5, 21
         right               : 81, 131, 5, 21
-        textOffset          : 0, 0
-        textColor           : 0, 0, 0
+
+        Text
+            offset          : 0, -1
+            color           : 0, 0, 0
 
     Click
         left                : 55, 131, 5, 21
         center              : 68, 131, 5, 21
         right               : 81, 131, 5, 21
-        textOffset          : 0, 0
-        textColor           : 0, 0, 0
+
+        Text
+            offset          : 0, -1
+            color           : 0, 0, 0
 
     Focus
         left                : 55, 180, 5, 21
@@ -194,12 +208,15 @@ TreeListNode
         offsets             : [0, 0], 0
 
 TextInput
-    stick                   : 38, 35, 5, 21
-    selectColor             : 98, 140, 206, 100
+    carriage                : 38, 35, 5, 21
+    selectColor             : 98, 140, 206
     selectOffset            : 2, 2
     textLeftMargin          : 6
     textRightMargin         : 6
-    textTopMargin           : 1
+    textTopMargin           : 0
+    prefixMargin            : 6
+    postfixMargin           : 6
+    softPostfixMargin       : 3
     carriageBoundary        : 1
     selectRegionHeight      : 16
     selectRegionOffset      : 1, 2
@@ -212,33 +229,63 @@ TextInput
         center              : 16, 35, 5, 21
         right               : 30, 35, 5, 21
 
-        arrowLeft           : 40, 82, 5, 10
-        arrowRight          : 45, 82, 5, 10
+        Arrow
+            left            : 40, 82, 5, 10
+            right           : 45, 82, 5, 10
 
-        textOffset          : 0, 0
-        textColor           : 20, 20, 20
+        Text
+            offset          : 0, -1
+            color           : 20, 20, 20
+
+        PrefixText
+            offset          : 0, -1
+            color           : 120, 120, 120
+
+        PostfixText
+            offset          : 0, -1
+            color           : 120, 120, 120
 
     Enter
         left                : 4 , 59, 5, 21
         center              : 16, 59, 5, 21
         right               : 30, 59, 5, 21
 
-        arrowLeft           : 40, 94, 5, 10
-        arrowRight          : 45, 94, 5, 10
+        Arrow
+            left            : 40, 94, 5, 10
+            right           : 45, 94, 5, 10
 
-        textOffset          : 0, 0
-        textColor           : 40, 40, 40
+        Text
+            offset          : 0, -1
+            color           : 40, 40, 40
+
+        PrefixText
+            offset          : 0, -1
+            color           : 120, 120, 120
+
+        PostfixText
+            offset          : 0, -1
+            color           : 120, 120, 120
 
     Click
         left                : 4 , 59, 5, 21
         center              : 16, 59, 5, 21
         right               : 30, 59, 5, 21
 
-        arrowLeft           : 40, 94, 5, 10
-        arrowRight          : 45, 94, 5, 10
+        Arrow
+            left            : 40, 94, 5, 10
+            right           : 45, 94, 5, 10
 
-        textOffset          : 0, 0
-        textColor           : 40, 40, 40
+        Text
+            offset          : 0, -1
+            color           : 40, 40, 40
+
+        PrefixText
+            offset          : 0, -1
+            color           : 120, 120, 120
+
+        PostfixText
+            offset          : 0, -1
+            color           : 120, 120, 120
 
     Focus
         left                : 4 , 83, 5, 21
@@ -246,32 +293,54 @@ TextInput
         right               : 30, 83, 5, 21
         offsets             : [0, 0], 0
 
-ListItem(Button)
+ListMenuItem(Button)
+    split                   : 44, 35, 3, 21
     iconOffsets             : 2, -1
+    textLeftMargin          : 9
+    textRightMargin         : 9
     submenuArrowOffset      : 0, 0
+    arrowAreaWidth          : 10
 
     Leave
         center              : 68 , 180, 5, 21
         right               : 81 , 180, 5, 21
         submenuArrow        : 162, 131, 15, 21
-        textOffset          : 0,  0
-        textColor           : 200, 200, 200
+
+        Text
+            offset          : 0,  -2
+            color           : 200, 200, 200
+
+        ShortcutText
+            offset          : 0,  -2
+            color           : 200, 200, 200
 
     Enter
         left                : 129, 107, 5, 21
         center              : 129, 107, 5, 21
         right               : 129, 107, 5, 21
         submenuArrow        : 178, 131, 15, 21
-        textOffset          : 0,  0
-        textColor           : 40, 40, 40
+
+        Text
+            offset          : 0,  -2
+            color           : 40, 40, 40
+
+        ShortcutText
+            offset          : 0,  -2
+            color           : 40, 40, 40
 
     Click
         left                : 129, 107, 5, 21
         center              : 129, 107, 5, 21
         right               : 129, 107, 5, 21
         submenuArrow        : 178, 131, 15, 21
-        textOffset          : 0,  0
-        textColor           : 40, 40, 40
+
+        Text
+            offset          : 0,  -2
+            color           : 40, 40, 40
+
+        ShortcutText
+            offset          : 0,  -2
+            color           : 40, 40, 40
 
     Focus
         left                : 55, 180, 5, 21
@@ -280,7 +349,7 @@ ListItem(Button)
         offsets             : [0, 0], 0
 
 ListMenu
-    popupExtraPadding       : 4, 4, 4, 4
+    popupExtraPadding       : 4, 4, 4, 5
     downPopupOffset         : -3, 0
     rightPopupOffset        : 3, -3
     extraMenuVisibleBorder  : 20, 20, 20, 50
@@ -315,31 +384,85 @@ DropListMenu
         left                : 89 , 35, 5 , 21
         center              : 102, 35, 5 , 21
         right               : 115, 35, 5 , 21
-        textOffset          : 0,  0
-        textColor           : 20, 20, 20
         dropChevron         : 40, 59, 10, 21
+
+        Text
+            offset          : 0,  -1
+            color           : 20, 20, 20
 
     Enter
         left                : 89 , 59, 5, 21
         center              : 102, 59, 5, 21
         right               : 115, 59, 5, 21
-        textOffset          : 0,  0
-        textColor           : 40, 40, 40
         dropChevron         : 40, 59, 10, 21
+
+        Text
+            offset          : 0,  -1
+            color           : 40, 40, 40
 
     Click
         left                : 89 , 83, 5, 21
         center              : 102, 83, 5, 21
         right               : 115, 83, 5, 21
-        textOffset          : 0, 0
-        textColor           : 20, 20, 20
         dropChevron         : 40, 59, 10, 21
+
+        Text
+            offset          : 0, -1
+            color           : 20, 20, 20
 
     Focus
         left                : 53, 105, 6, 25
         center              : 68, 105, 6, 25
         right               : 82, 105, 6, 25
         offsets             : [-2, -2], 4
+
+MainMenuItem(DropListMenu)
+    split                   : 44, 35, 3, 21
+    iconOffsets             : 2, -1
+    iconGaps                : 2
+    textLeftMargin          : 9
+    textRightMargin         : 9
+
+    Leave
+        left                : 55, 180, 5, 21
+        center              : 68, 180, 5, 21
+        right               : 81, 180, 5, 21
+
+        Text
+            offset          : 0, -1
+            color           : 0, 0, 0
+
+    Enter
+        left                : 55, 131, 5, 21
+        center              : 68, 131, 5, 21
+        right               : 81, 131, 5, 21
+
+        Text
+            offset          : 0, -1
+            color           : 0, 0, 0
+
+    Click
+        left                : 55, 131, 5, 21
+        center              : 68, 131, 5, 21
+        right               : 81, 131, 5, 21
+
+        Text
+            offset          : 0, -1
+            color           : 0, 0, 0
+
+    Focus
+        left                : 55, 180, 5, 21
+        center              : 68, 180, 5, 21
+        right               : 81, 180, 5, 21
+        offsets             : [0, 0], 0
+
+ListMenuItemsDivider
+    dividerOffsets          : 5, 5, 5, 5
+    innerColor              : 0, 0, 0, 20
+    outerColor              : 255, 255, 255, 10
+
+TabLayout
+    borderColor             : 0, 0, 0, 10
 
 TabButton
     split                   : 44, 35, 3, 21
@@ -352,22 +475,28 @@ TabButton
         left                : 289, 226, 6, 21
         center              : 308, 226, 6, 21
         right               : 327, 226, 6, 21
-        textOffset          : 0, 2
-        textColor           : 20, 20, 20
+
+        Text
+            offset          : 0, 1
+            color           : 20, 20, 20
 
     Enter
         left                : 338, 226, 6, 21
         center              : 357, 226, 6, 21
         right               : 376, 226, 6, 21
-        textOffset          : 0, 2
-        textColor           : 20, 20, 20
+
+        Text
+            offset          : 0, 1
+            color           : 20, 20, 20
 
     Click
         left                : 240, 226, 6, 21
         center              : 259, 226, 6, 21
         right               : 278, 226, 6, 21
-        textOffset          : 0, 2
-        textColor           : 20, 20, 20
+
+        Text
+            offset          : 0, 1
+            color           : 20, 20, 20
 
     Focus
         left                : 0, 0, 0, 0
@@ -391,25 +520,31 @@ CheckButton
         left                : 89 , 35, 5 , 21
         center              : 102, 35, 5 , 21
         right               : 115, 35, 5 , 21
-        textOffset          : 1,  0
-        textColor           : 20, 20, 20
         dropChevron         : 40, 59, 10, 21
+
+        Text
+            offset          : 1,  -1
+            color           : 20, 20, 20
 
     Enter
         left                : 89 , 59, 5, 21
         center              : 102, 59, 5, 21
         right               : 115, 59, 5, 21
-        textOffset          : 1,  0
-        textColor           : 40, 40, 40
         dropChevron         : 40, 59, 10, 21
+
+        Text
+            offset          : 1,  -1
+            color           : 40, 40, 40
 
     Click
         left                : 89 , 107, 5, 21
         center              : 102, 107, 5, 21
         right               : 115, 107, 5, 21
-        textOffset          : 1, 0
-        textColor           : 0, 0, 0
         dropChevron         : 40, 59, 10, 21
+
+        Text
+            offset          : 1, -1
+            color           : 0, 0, 0
 
     Focus
         left                : 53, 105, 6, 25
@@ -417,7 +552,7 @@ CheckButton
         right               : 82, 105, 6, 25
         offsets             : [-2, -2], 4
 
-SwitchButton(Button)
+SwitchButton
     split                   : 44, 35, 3, 21
     iconOffsets             : 2, -1
     iconGaps                : 2
@@ -428,25 +563,31 @@ SwitchButton(Button)
         left                : 89 , 35, 5 , 21
         center              : 102, 35, 5 , 21
         right               : 115, 35, 5 , 21
-        textOffset          : 0,  0
-        textColor           : 20, 20, 20
         dropChevron         : 40, 59, 10, 21
+
+        Text
+            offset          : 0,  -1
+            color           : 20, 20, 20
 
     Enter
         left                : 89 , 59, 5, 21
         center              : 102, 59, 5, 21
         right               : 115, 59, 5, 21
-        textOffset          : 0,  0
-        textColor           : 40, 40, 40
         dropChevron         : 40, 59, 10, 21
+
+        Text
+            offset          : 0,  -1
+            color           : 40, 40, 40
 
     Click
         left                : 89 , 107, 5, 21
         center              : 102, 107, 5, 21
         right               : 115, 107, 5, 21
-        textOffset          : 0, 0
-        textColor           : 0, 0, 0
         dropChevron         : 40, 59, 10, 21
+
+        Text
+            offset          : 0, -1
+            color           : 0, 0, 0
 
     Focus
         left                : 53, 105, 6, 25
@@ -475,3 +616,82 @@ Dialog
         left                : 235, 67, 19, 20
         center              : 273, 67, 19, 20
         right               : 312, 67, 19, 20
+
+Toolbar
+    background              : 45 , 226, 5, 80
+    height                  : 78
+    tabOffset               : 10
+
+ToolbarItemsDivider
+    divider                 : 114, 226, 5, 80
+    dividerOffset           : 10, 2
+    width                   : 19
+
+ToolbarTabLayout
+    borderColor             : 0, 0, 0, 0
+
+ToolbarTabButton(TabButton)
+    split                   : 44, 35, 3, 21
+    iconOffsets             : 8, 2
+    iconGaps                : 1
+    textLeftMargin          : 14
+    textRightMargin         : 9
+    uselessBorders          : 5, 0, 5, 3
+
+    Leave
+        left                : 125, 226, 13, 22
+        center              : 141, 226, 13, 22
+        right               : 158, 226, 13, 22
+
+        Text
+            offset          : 0, 1
+            color           : 20, 20, 20
+
+    Enter
+        left                : 176, 226, 13, 22
+        center              : 192, 226, 13, 22
+        right               : 209, 226, 13, 22
+
+        Text
+            offset          : 0, 1
+            color           : 40, 40, 40
+
+    Click
+        left                : 125, 253, 13, 22
+        center              : 142, 253, 13, 22
+        right               : 158, 253, 13, 22
+
+        Text
+            offset          : 0, 1
+            color           : 40, 40, 40
+
+    Focus
+        left                : 0, 0, 0, 0
+        center              : 0, 0, 0, 0
+        right               : 0, 0, 0, 0
+        offsets             : [0, 0], 0
+
+ToolbarItem
+    size: 56, 70
+    iconBoxSize: 56, 56
+
+    Leave
+        alpha               : 75
+
+        Text
+            offset          : 0, 0
+            color           : 110, 110, 110
+
+    Enter
+        alpha               : 100
+
+        Text
+            offset          : 0, 0
+            color           : 0, 0, 0
+
+    Click
+        alpha               : 100
+
+        Text
+            offset          : 0, 0
+            color           : 10, 10, 210
