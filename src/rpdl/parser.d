@@ -77,7 +77,8 @@ private:
         string type = "";
         Array!Parameter parameters;
 
-        auto node = new ObjectNode(name, parent);
+        const objectPath = parent.isRoot ? name : parent.path ~ "." ~ name;
+        auto node = data.data.optObjectNode(objectPath, new ObjectNode(name, parent));
 
         int objectIndent = indent;
         lexer.nextToken();

@@ -11,6 +11,7 @@ import std.stdio;
 import std.container;
 import std.traits;
 import std.conv;
+import std.algorithm.iteration : filter;
 
 import rpdl.value;
 import rpdl.accessors;
@@ -102,7 +103,7 @@ private:
         assert(node !is null);
         const absolutePath = isRoot ? relativePath : path ~ "." ~ relativePath;
 
-        foreach (Node child; node.children) {
+        foreach_reverse (Node child; node.children) {
             if (child.path == absolutePath)
                 return child;
 

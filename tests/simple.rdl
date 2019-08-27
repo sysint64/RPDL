@@ -1,5 +1,10 @@
 include "include.rdl"
 
+TestInclude
+    testString: "test"
+    Test3
+        name: "y"
+
 # Hello world
 
 Rombik

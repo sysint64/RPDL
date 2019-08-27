@@ -164,6 +164,8 @@ unittest {
         assert(getString("Test.Test2.p2.2") == "Hello");
         assert(getString("TestInclude.Linux.0") == "Arch");
         assert(getInteger("TestInclude.Test2.param.3.2") == 4);
+        assert(getString("TestInclude.testString.0") == "test", getString("TestInclude.testString.0"));
+        assert(getString("TestInclude.Test3.name.0") == "y", getString("TestInclude.Test3.name.0"));
 
         // Non standart types
         assert(getVec2f("Rombik.position") == Vector!(float, 2)(1, 3));
