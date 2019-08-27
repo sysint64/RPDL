@@ -206,3 +206,16 @@ unittest {
 
     // TODO: Tests for relative pathes
 }
+
+unittest {
+    const binDirectory = dirName(thisExePath());
+    const testsDirectory = buildPath(binDirectory, "tests");
+
+    auto tree = new RpdlTree(testsDirectory);
+    tree.load("theme.rdl");
+
+    with (tree.data) {
+        assert(getNumber("ListItem.iconGaps.0") == 2);
+        assert(getNumber("ListItem.Leave.left.1") == 35);
+    }
+}
